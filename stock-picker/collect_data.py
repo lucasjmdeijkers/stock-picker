@@ -1,9 +1,11 @@
+import os
 import requests
+from dotenv import load_dotenv
 
+load_dotenv()
 
 BASE_URL = 'https://api.stockdata.org/v1/data/'
-
-API_KEY =  'sBRGxGtAXIFewvu3Sn6ePUoOC7RMFsvO3ArAWsuu'
+API_KEY = os.getenv('API_KEY')
 
 def get_stock_quote(ticker):
     url = f'{BASE_URL}/quote?symbols={ticker}&api_token={API_KEY}'
