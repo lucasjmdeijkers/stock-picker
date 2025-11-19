@@ -6,7 +6,7 @@ from datetime import date
 load_dotenv()
 
 BASE_URL = 'https://api.stockdata.org/v1/data/'
-API_KEY = os.getenv('API_KEY')
+API_KEY = os.getenv('STOCKDATA_API_KEY')
 
 def get_stock_quote(ticker):
     url = f'{BASE_URL}/quote?symbols={ticker}&api_token={API_KEY}'
@@ -23,7 +23,9 @@ def get_stock_quote(ticker):
         return quote_list
 
     else:
-        print(f'Failed to retrieve data: {response.status_code}')
+        print(f'Failed to retrieve quote data: {response.status_code}')
+
+
 
 
 
