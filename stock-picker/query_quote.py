@@ -16,8 +16,10 @@ def get_stock_info(stock_list):
         tangible_book_value = ( stock_balance_sheet[2]['stockholdersEquity']
                                 - stock_balance_sheet[3]['goodwill']
                                 - stock_balance_sheet[4]['intangibleAssets'] )
+        tangible_book_value_dict = {'tangible_book_value': tangible_book_value}
 
         price_to_TBV        = stock_key_metrics[2]['marketCap'] / tangible_book_value
+        price
         NCAV                = stock_balance_sheet[5]['currentAssets'] - stock_balance_sheet[6]['totalLiabilities']
 
         NNWC                = ( stock_balance_sheet[7]['cashAndCashEquivalents']
@@ -27,14 +29,15 @@ def get_stock_info(stock_list):
         price_to_FCF        = stock_key_metrics[2]['marketCap'] / stock_cash_flow[2]['freeCashFlow']
         debt_to_equity      = stock_balance_sheet[12]['totalDebt'] / stock_balance_sheet[2]['stockholdersEquity']
 
-        info_list           = stock_quote
-        info_list.extend([
-            stock_key_metrics[2],
-            stock_balance_sheet[2:],
-            stock_cash_flow[2]
-        ])
+        # info_list           = stock_quote
+        # info_list.extend([
+        #     stock_key_metrics[2],
+        #     stock_balance_sheet[2:],
+        #     stock_cash_flow[2],
+        #
+        # ])
 
-        return info_list
+        return tangible_book_value
 
     # TODO: Return clean list of desired metrics and quote
 
