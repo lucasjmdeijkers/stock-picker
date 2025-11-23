@@ -58,18 +58,14 @@ def get_stock_info(stock_list):
         debt_to_equity_dict      = {'debt_to_equity': debt_to_equity}
         stock_info.update(debt_to_equity_dict)
 
-
         return stock_info
 
 
+# result = get_stock_info(['msft'])
+#
+# for metric, value in result.items():
+#     print(f'{metric}: {value}')
 
-
-ticker_list = ['AAPL']
-
-result = get_stock_info(ticker_list)
-
-for metric, value in result.items():
-    print(f'{metric}: {value}')
 
 
 

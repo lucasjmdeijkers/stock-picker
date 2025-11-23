@@ -1,5 +1,6 @@
-from get_quote import get_stock_quote
 import csv
+
+
 
 def write_stock_quote(stock_response):
     with open(file='quote_data.csv', mode='a', newline='') as csvfile:
