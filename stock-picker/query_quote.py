@@ -34,6 +34,7 @@ def get_stock_info(stock_list):
         stock_info.update(tangible_book_value_dict)
 
         price_to_TBV        = stock_key_metrics[2]['marketCap'] / tangible_book_value
+        price_to_TBV        = round(price_to_TBV, 3)
         price_to_TBV_dict   = {'price_to_TBV': price_to_TBV}
         stock_info.update(price_to_TBV_dict)
 
@@ -48,10 +49,12 @@ def get_stock_info(stock_list):
         stock_info.update(NNWC_dict)
 
         price_to_FCF        = stock_key_metrics[2]['marketCap'] / stock_cash_flow[2]['freeCashFlow']
+        price_to_FCF        = round(price_to_FCF, 3)
         price_to_FCF_dict   = {'price_to_FCF': price_to_FCF}
         stock_info.update(price_to_FCF_dict)
 
         debt_to_equity      = stock_balance_sheet[12]['totalDebt'] / stock_balance_sheet[2]['stockholdersEquity']
+        debt_to_equity      = round(debt_to_equity, 3)
         debt_to_equity_dict      = {'debt_to_equity': debt_to_equity}
         stock_info.update(debt_to_equity_dict)
 
