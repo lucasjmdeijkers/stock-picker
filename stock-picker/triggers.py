@@ -1,29 +1,41 @@
 from query_quote import get_stock_info
 
-def liquidation(stock_info):
-    marketCap       = stock_info.get('marketCap')
-    NNWC            = stock_info.get('NNWC')
-    NCAV            = stock_info.get('NCAV')
-    price_to_TBV    = stock_info.get('price_to_TBV')
+def value_score(stock_info):
+    stock_ticker = stock_info.get('ticker')
 
-    liquidation_trigger = False
+    score = 0
 
-    if marketCap < (NCAV * 0.66):
-        liquidation_trigger = True
+    stock_safety = safety_gate(stock_info)
+
+    if not stock_safety:
+        stock_score = f'{stock_ticker} does not pass the safety check.'
+
     else:
-        liquidation_trigger = False
+        liquidation_score   = liquidation(stock_info)
+        cash_flow_score     = cash_flow(stock_info)
+        score += liquidation_score
+        score += cash_flow_score
+
+        stock_score = f'{stock_ticker} has a score of {score}'
+
+    return stock_score
+
+def liquidation(stock_info):
+    marketCap           = stock_info.get('marketCap')
+    NNWC                = stock_info.get('NNWC')
+    NCAV                = stock_info.get('NCAV')
+    tangible_book_value = stock_info.get('tangible_book_value')
+
+    liquidation_score = 0
 
     if marketCap < NNWC:
-        liquidation_trigger = True
-    else:
-        liquidation_trigger = False
+        liquidation_score += 5
+    elif marketCap < NCAV:
+        liquidation_score += 3
+    elif marketCap < tangible_book_value:
+        liquidation_score += 2
 
-    if price_to_TBV < 1:
-        liquidation_trigger = True
-    else:
-        liquidation_trigger = False
-
-    return liquidation_trigger
+   return liquidation_score
 
 def cash_flow(stock_info):
     price_to_FCF            = stock_info.get('price_to_FCF')
@@ -51,7 +63,7 @@ def cash_flow(stock_info):
 
     return cash_flow_trigger
 
-def safety(stock_info):
+def safety_gate(stock_info):
     debt_to_equity      = stock_info.get('debt_to_equity')
     currentAssets       = stock_info.get('currentAssets')
     currentLiabilities  = stock_info.get('currentLiabilities')
@@ -60,10 +72,7 @@ def safety(stock_info):
 
     if debt_to_equity < 0.5:
         safety = True
-    else:
-        safety = False
-
-    if (currentAssets / currentLiabilities) > 1.5:
+    elif (currentAssets / currentLiabilities) > 1.5:
         safety = True
     else:
         safety = False
