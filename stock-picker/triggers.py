@@ -71,7 +71,10 @@ def safety(stock_info):
     return safety
 
 
-
+#TODO:
+# -  Return sub-triggers
+# -  Create point-system to allow ranking
+# -  Write all (sub) results and (sub) trigger eval
 
 stock_list = ['AAPL']
 
