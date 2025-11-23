@@ -29,13 +29,17 @@ def liquidation(stock_info):
     liquidation_score = 0
 
     if marketCap < NNWC:
+        print('1 is true')
         liquidation_score += 5
     elif marketCap < NCAV:
+        print('2 is true')
         liquidation_score += 3
-    elif marketCap < tangible_book_value:
+
+    if marketCap < tangible_book_value:
+        print('3 is true')
         liquidation_score += 2
 
-   return liquidation_score
+    return liquidation_score
 
 def cash_flow(stock_info):
     price_to_FCF            = stock_info.get('price_to_FCF')
@@ -44,24 +48,20 @@ def cash_flow(stock_info):
     cashAndCashEquivalents  = stock_info.get('cashAndCashEquivalents')
     totalDebt               = stock_info.get('totalDebt')
 
-    cash_flow_trigger =  False
+    enterprise_value    = marketCap + totalDebt - cashAndCashEquivalents
+    FCF_yield           = (freeCashFlow / enterprise_value) * 100
 
-    if price_to_FCF < 10:
-        cash_flow_trigger = True
-    else:
-        cash_flow_trigger = False
+    cash_flow_score = 0
 
-    if (freeCashFlow / marketCap) > 0.1:
-        cash_flow_trigger = True
-    else:
-        cash_flow_trigger = False
+    if enterprise_value / freeCashFlow < 5:
+        cash_flow_score += 4
+    elif enterprise_value / freeCashFlow < 8:
+        cash_flow_score += 2
 
-    if ((marketCap + totalDebt - cashAndCashEquivalents) / freeCashFlow) < 8:
-        cash_flow_trigger = True
-    else:
-        cash_flow_trigger = False
+    if FCF_yield > 10:
+        cash_flow_score += 1
 
-    return cash_flow_trigger
+    return cash_flow_score
 
 def safety_gate(stock_info):
     debt_to_equity      = stock_info.get('debt_to_equity')
@@ -70,7 +70,7 @@ def safety_gate(stock_info):
 
     safety = False
 
-    if debt_to_equity < 0.5:
+    if debt_to_equity < 1:
         safety = True
     elif (currentAssets / currentLiabilities) > 1.5:
         safety = True
@@ -87,9 +87,18 @@ def safety_gate(stock_info):
 
 stock_list = ['AAPL']
 
+# stock_list = ['AAPL', 'TSLA', 'AMZN', 'MSFT', 'NVDA', 'GOOGL', 'META', 'NFLX', 'JPM', 'V', 'BAC', 'AMD', 'PYPL', 'DIS', 'T', 'PFE', 'COST', 'INTC', 'KO', 'TGT',
+#               'NKE', 'SPY', 'BA', 'BABA', 'XOM', 'WMT', 'GE', 'CSCO', 'VZ', 'JNJ', 'CVX', 'PLTR', 'SQ', 'SHOP', 'SBUX', 'SOFI', 'HOOD', 'RBLX', 'SNAP', 'AMD',
+#               'UBER', 'FDX', 'ABBV', 'ETSY', 'MRNA', 'LMT', 'GM', 'F', 'RIVN', 'LCID', 'CCL', 'DAL', 'UAL', 'AAL', 'TSM', 'SONY', 'ET', 'NOK', 'MRO', 'COIN',
+#               'RIVN', 'SIRI', 'SOFI', 'RIOT', 'CPRX', 'PYPL', 'TGT', 'VWO', 'SPYG', 'NOK', 'ROKU', 'HOOD', 'VIAC', 'ATVI', 'BIDU', 'DOCU', 'ZM', 'PINS',
+#               'TLRY', 'WBA', 'VIAC', 'MGM', 'NFLX', 'NIO', 'C', 'GS', 'WFC', 'ADBE', 'PEP', 'UNH', 'CARR', 'FUBO', 'HCA', 'TWTR', 'BILI', 'SIRI', 'VIAC',
+#               'FUBO', 'RKT']
+
 stock_info = get_stock_info(stock_list)
 
-result = safety(stock_info)
+for stock in stock_list:
+    stock_info = get_stock_info(stock)
+    result = value_score(stock_info)
 
-print(result)
+    print(result)
 
