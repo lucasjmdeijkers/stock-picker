@@ -16,20 +16,27 @@ def get_key_metrics(ticker):
     if response.status_code == 200:
         stock_key_metrics   = response.json()
 
-        stock_ticker        = stock_key_metrics[0]['symbol']
+        if stock_key_metrics:
 
-        stock_market_cap    = stock_key_metrics[0]['marketCap']
+            stock_ticker        = stock_key_metrics[0]['symbol']
 
-        key_metrics_info    = [
-            date.today(),
-            stock_ticker,
-            {'marketCap': stock_market_cap}
-        ]
+            stock_market_cap    = stock_key_metrics[0]['marketCap']
 
-        return key_metrics_info
+            key_metrics_info    = [
+                date.today(),
+                stock_ticker,
+                {'marketCap': stock_market_cap}
+            ]
+
+            return key_metrics_info
+
+        else:
+            print(f'Error: No data from API request for {ticker}')
+            return None
 
     else:
         print(f'Failed to retreive key metric data: {response.status_code}')
+        print(url)
 
 def get_balance_sheet(ticker):
     url = f'{BASE_URL}/balance-sheet-statement?symbol={ticker}&apikey={API_KEY}'

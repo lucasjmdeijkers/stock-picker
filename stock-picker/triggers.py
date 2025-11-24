@@ -29,14 +29,11 @@ def liquidation(stock_info):
     liquidation_score = 0
 
     if marketCap < NNWC:
-        print('1 is true')
         liquidation_score += 5
     elif marketCap < NCAV:
-        print('2 is true')
         liquidation_score += 3
 
     if marketCap < tangible_book_value:
-        print('3 is true')
         liquidation_score += 2
 
     return liquidation_score
@@ -84,17 +81,20 @@ def safety_gate(stock_info):
 # -  Return sub-triggers
 # -  Create point-system to allow ranking
 # -  Write all (sub) results and (sub) trigger eval
+# -  Debug empty API responses (e.g. SPY, SQ)
+# -  Add check for reported currency?
+# -  Debug 402 response
 
-stock_list = ['AAPL']
+# stock_list = ['SQ']
 
-# stock_list = ['AAPL', 'TSLA', 'AMZN', 'MSFT', 'NVDA', 'GOOGL', 'META', 'NFLX', 'JPM', 'V', 'BAC', 'AMD', 'PYPL', 'DIS', 'T', 'PFE', 'COST', 'INTC', 'KO', 'TGT',
-#               'NKE', 'SPY', 'BA', 'BABA', 'XOM', 'WMT', 'GE', 'CSCO', 'VZ', 'JNJ', 'CVX', 'PLTR', 'SQ', 'SHOP', 'SBUX', 'SOFI', 'HOOD', 'RBLX', 'SNAP', 'AMD',
-#               'UBER', 'FDX', 'ABBV', 'ETSY', 'MRNA', 'LMT', 'GM', 'F', 'RIVN', 'LCID', 'CCL', 'DAL', 'UAL', 'AAL', 'TSM', 'SONY', 'ET', 'NOK', 'MRO', 'COIN',
-#               'RIVN', 'SIRI', 'SOFI', 'RIOT', 'CPRX', 'PYPL', 'TGT', 'VWO', 'SPYG', 'NOK', 'ROKU', 'HOOD', 'VIAC', 'ATVI', 'BIDU', 'DOCU', 'ZM', 'PINS',
-#               'TLRY', 'WBA', 'VIAC', 'MGM', 'NFLX', 'NIO', 'C', 'GS', 'WFC', 'ADBE', 'PEP', 'UNH', 'CARR', 'FUBO', 'HCA', 'TWTR', 'BILI', 'SIRI', 'VIAC',
-#               'FUBO', 'RKT']
+stock_list = ['AAPL', 'TSLA', 'AMZN', 'MSFT', 'NVDA', 'GOOGL', 'META', 'NFLX', 'JPM', 'V', 'BAC', 'AMD', 'PYPL', 'DIS', 'T', 'PFE', 'COST', 'INTC', 'KO', 'TGT',
+              'NKE', 'BA', 'BABA', 'XOM', 'WMT', 'GE', 'CSCO', 'VZ', 'JNJ', 'CVX', 'PLTR', 'SHOP', 'SBUX', 'SOFI', 'HOOD', 'RBLX', 'SNAP', 'AMD',
+              'UBER', 'FDX', 'ABBV', 'ETSY', 'MRNA', 'LMT', 'GM', 'F', 'RIVN', 'LCID', 'CCL', 'DAL', 'UAL', 'AAL', 'TSM', 'SONY', 'ET', 'NOK', 'MRO', 'COIN',
+              'RIVN', 'SIRI', 'SOFI', 'RIOT', 'CPRX', 'PYPL', 'TGT', 'VWO', 'SPYG', 'NOK', 'ROKU', 'HOOD', 'VIAC', 'ATVI', 'BIDU', 'DOCU', 'ZM', 'PINS',
+              'TLRY', 'WBA', 'VIAC', 'MGM', 'NFLX', 'NIO', 'C', 'GS', 'WFC', 'ADBE', 'PEP', 'UNH', 'CARR', 'FUBO', 'HCA', 'TWTR', 'BILI', 'SIRI', 'VIAC',
+              'FUBO', 'RKT']
 
-stock_info = get_stock_info(stock_list)
+
 
 for stock in stock_list:
     stock_info = get_stock_info(stock)
