@@ -97,8 +97,12 @@ stock_list = ['AAPL', 'TSLA', 'AMZN', 'MSFT', 'NVDA', 'GOOGL', 'META', 'NFLX', '
 
 
 for stock in stock_list:
-    stock_info = get_stock_info(stock)
-    result = value_score(stock_info)
+    try:
+        stock_info = get_stock_info(stock)
+        result = value_score(stock_info)
 
-    print(result)
+        print(result)
+    except:
+        print(f'Failed to calculate value score for {stock}')
+
 
